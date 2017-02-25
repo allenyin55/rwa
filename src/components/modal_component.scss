@@ -1,0 +1,43 @@
+ @import "./component.scss";
+
+.Overlay {
+  position: fixed;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: atuo;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  height: 400px;
+  width: 600px;
+  overflow: scroll;
+  background-color: papayawhip;
+}
+
+.Overlay_word_def {
+  position: fixed;
+  text-align: left;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: atuo;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  height: 400px;
+  width: 600px;
+  overflow: scroll;
+  background-color: papayawhip;
+}
+
+.for_margin_in_reviewWidget{
+  margin: 25px 30px 0 0; 
+}
+
+.header_space{
+	margin: 25px 0;
+}
+
+.comment_btns{
+	margin: 50px 10px;
+}

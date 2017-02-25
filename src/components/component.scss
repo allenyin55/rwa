@@ -1,0 +1,53 @@
+@import '../app.scss';
+
+.nav_bar{
+	width: 85%;
+	height: 4rem;
+	background: #fff;
+	border-top: 1px solid #cfcfcf;
+	border-bottom: 1px solid #cfcfcf;
+	position: fixed;
+	vertical-align: middle;
+	z-index: 100
+}
+
+.nav_bar_brand{
+	margin-top: 10px; 
+}
+
+.bookshelf_item{
+	margin: 15px;
+	padding: 15px;
+}
+
+.book_cover{
+	width: 96px;
+}
+
+.big_book_cover{
+	width: 128px;
+}
+
+.review_item{
+	margin-bottom: 10px;
+	padding: 10px;
+}	
+
+.indented_comment{
+	padding-left: 50px;
+	padding-right: 0;
+	width: 100%;
+	border: 0;
+}
+
+.review_widget{
+	border: 0;
+}
+
+.reply_wrapper{
+	width: 100%;
+}
+
+.word_def{
+	margin-top: 15px;
+}
