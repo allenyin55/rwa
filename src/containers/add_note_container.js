@@ -2,18 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ReactModal from 'react-modal';
 import { createNote, getNotes } from '../actions/index.js';
-import renderInput from '../utils/render_input.js';
+import renderInput from "../utils/render_input.js";
+import { Modal, Button } from "semantic-ui-react"
 import { reduxForm, Field } from 'redux-form';
 import validate from '../utils/form_validate.js';
 import CSSModules from 'react-css-modules';
 import styles from './modal.scss';
 
-class Modal extends React.Component{
+class AddNote extends React.Component{
 	
 	constructor () {
     super();
     this.state = {
-      showModal: false
+      modalOpen: false
     };
     
     this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -21,12 +22,12 @@ class Modal extends React.Component{
   }
 	
   handleOpenModal () {
-    this.setState({ showModal: true });
+    this.setState({ modalOpen: true });
   }
   
   handleCloseModal (e) {
     e.preventDefault();
-    this.setState({ showModal: false });
+    this.setState({ modalOpen: false });
   }
 
   onSubmit(props){
@@ -37,7 +38,7 @@ class Modal extends React.Component{
 			.then(() => {
         //to update the notes in update_journey
         this.props.getNotes(props);
-			  this.setState({ showModal: false });
+			  this.setState({ modalOpen: false });
   	});
 	}
 
@@ -46,65 +47,68 @@ class Modal extends React.Component{
 
     return (
       <div>
-        <button className="btn btn-primary" 
-        				styleName="btn for_margin_in_reviewWidget" 
-        				onClick={this.handleOpenModal}>{this.props.trigger}</button>
-        <ReactModal 
-           isOpen={this.state.showModal}
-           contentLabel="commentBox"
-           styleName="Overlay"
-        >
-        	<form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-	        	<h5 styleName="header_space">Add a note</h5>
-            <h5 styleName="header_space">Title</h5>
-            <Field name="noteTitle" 
-                   placeholder="title" 
-                   minRows={1}
-                   maxRows={2}
-                   component={CSSModules(renderInput, styles)} 
-                   type="text" />
-            <h5 styleName="header_space">Page Number</h5>
-            <Field name="notePgNum" 
-                   placeholder="page number" 
-                   minRows={1}
-                   maxRows={2}
-                   component={CSSModules(renderInput, styles)} 
-                   type="text" />
-            <h5 styleName="header_space">Paragraph Number</h5>
-            <Field name="noteParaNum" 
-                   placeholder="paragraph number" 
-                   minRows={1}
-                   maxRows={2}
-                   component={CSSModules(renderInput, styles)} 
-                   type="text" />
-            <h5 styleName="header_space">Sentence Number</h5>
-            <Field name="noteSenNum" 
-                   placeholder="sentence number" 
-                   minRows={1}
-                   maxRows={2}
-                   component={CSSModules(renderInput, styles)} 
-                   type="text" />
-            <h5 styleName="header_space">Content</h5>
-	          <Field name="content"
-                   placeholder="content" 
-                   minRows={6}
-                   maxRows={9}
-                   component={CSSModules(renderInput, styles)} type="text" />
-	          <button styleName="same_line comment_btns"
-                    className="btn btn-primary" 
-                    type="submit">Submit</button>
-	          <button styleName="same_line comment_btns" 
-                    className="btn btn-danger"
-	          				onClick={this.handleCloseModal}>Cancel</button>
-         	</form>
-        </ReactModal>
+        <Modal open={this.state.modalOpen}
+               onClose={this.handleCloseModal.bind(this)}
+               size="small"
+               trigger={<Button basic color="green"
+                                onClick={this.handleOpenModal}>Add a note</Button>}>
+          <Modal.Header>Add a word to the book's vocabulary</Modal.Header>
+          <Modal.Content>
+          <Modal.Actions>
+             <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+              <h5 styleName="header_space">Add a note</h5>
+              <h5 styleName="header_space">Title</h5>
+              <Field name="noteTitle" 
+                     placeholder="title" 
+                     minRows={1}
+                     maxRows={2}
+                     component={renderInput} 
+                     type="text" />
+              <h5 styleName="header_space">Page Number</h5>
+              <Field name="notePgNum" 
+                     placeholder="page number" 
+                     minRows={1}
+                     maxRows={2}
+                     component={renderInput} 
+                     type="text" />
+              <h5 styleName="header_space">Paragraph Number</h5>
+              <Field name="noteParaNum" 
+                     placeholder="paragraph number" 
+                     minRows={1}
+                     maxRows={2}
+                     component={renderInput} 
+                     type="text" />
+              <h5 styleName="header_space">Sentence Number</h5>
+              <Field name="noteSenNum" 
+                     placeholder="sentence number" 
+                     minRows={1}
+                     maxRows={2}
+                     component={renderInput} 
+                     type="text" />
+              <h5 styleName="header_space">Content</h5>
+              <Field name="content"
+                     placeholder="content" 
+                     minRows={6}
+                     maxRows={9}
+                     component={renderInput} 
+                     type="text" />
+              <button styleName="same_line comment_btns"
+                      className="btn btn-primary" 
+                      type="submit">Submit</button>
+              <button styleName="same_line comment_btns" 
+                      className="btn btn-danger"
+                      onClick={this.handleCloseModal}>Cancel</button>
+            </form>
+          </Modal.Actions>
+          </Modal.Content>
+      </Modal>
       </div>
     );
   }
 }
 
-const ModalWithCSS = CSSModules(Modal, styles, {allowMultiple: true});
+const AddNoteWithCSS = CSSModules(AddNote, styles, {allowMultiple: true});
 export default connect(null, { createNote, getNotes }) (reduxForm({
     form: 'NoteNewForm',
     validate
-}) (ModalWithCSS));
+}) (AddNoteWithCSS));

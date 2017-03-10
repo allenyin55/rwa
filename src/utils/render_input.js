@@ -1,5 +1,7 @@
 import React from 'react';
 import Textarea from 'react-textarea-autosize';
+import CSSModules from 'react-css-modules';
+import styles from '../components/modal_component.scss';
 
 const renderInput = ({ input, meta, placeholder, defaultValue, maxRows, minRows }) => {
 
@@ -34,4 +36,4 @@ const renderInput = ({ input, meta, placeholder, defaultValue, maxRows, minRows 
   );
 };
 
-export default renderInput;
+export default CSSModules(renderInput, styles);

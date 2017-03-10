@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux'
-import { reduxForm } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import { createBook, getBookInfo, getGuessedBookInfo } from '../actions/index';
 import { Link } from 'react-router';
-import AddReviews from '../components/add_reviews_component';
+import renderInput from '../components/render_input_component.js';
 import SearchBooks from '../components/search_books_component';
 import Rating from 'react-rating';
 import validate from '../utils/form_validate';
@@ -94,7 +94,7 @@ class BooksNew extends Component{
             onChange={this.onRatingChange.bind(this)}/>
           </div>
           <h5 styleName="some_space">review</h5>
-          <AddReviews/>
+           <Field name="review" component={renderInput} type="text" />
           <button type="submit" className="btn btn-primary" styleName="btn">Submit</button>
           <Link to="/" className="btn btn-danger" styleName="btn">Cancel</Link>
         </form>

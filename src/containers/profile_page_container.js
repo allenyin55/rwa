@@ -61,7 +61,7 @@ class Profile extends React.Component {
     }
     
     return (
-      <div styleName="app_container">
+      <div>
         <img styleName="same_line big_headshot" src={profile.picture_large}/>
         <h2 styleName="same_line">{profile.name}'s book shelf</h2>
         <div styleName="some_space" className="d-flex align-content-start flex-wrap">

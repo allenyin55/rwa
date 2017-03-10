@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { Card } from 'antd';
+import { Popover } from 'antd';
 import moment from 'moment-timezone';
 import Rating from 'react-rating';
 import ZulutoPST from '../utils/ZulutoPST.js';
@@ -28,24 +30,26 @@ const BookDisplay = ({ book, isInList }) => {
         </div>);
     }
 
-    return (
+    const detail = (
       <div>
-        <div>
-          <div>
-            <img
+        {(book.bookinfo.volumeInfo.authors !== undefined)
+          ? (<div>by {book.bookinfo.volumeInfo.authors[0]}</div>)
+          : (<div>No author</div>)}
+        <div>{ ZulutoPST(book.dateadded) } added</div>
+      </div>
+      )
+
+    return (
+      <Card style={{ width: 117 }} bodyStyle={{ padding: 0 }} bordered={false}>
+        <Popover content={detail} title={<h6>{book.title}</h6>} placement="rightTop">
+          <img
               src={
               book.bookinfo.volumeInfo.imageLinks.thumbnail}
               alt="No Cover Image Available"
               styleName="book_cover"
             />
-          </div>
-          <div>
-            {book.title}
-          </div>
-        </div>
-        {(book.bookinfo.volumeInfo.authors !== undefined)
-          ? (<div>{book.bookinfo.volumeInfo.authors[0]}</div>)
-          : (<div>No author</div>)}
+        </Popover>
+
         <Rating 
           placeholderRate={ book.avg_rating }
           empty={<img src='/images/star_grey.png'/>}
@@ -53,8 +57,8 @@ const BookDisplay = ({ book, isInList }) => {
           fractions = {10}
           readonly = {true}
         />
-        <div>{ ZulutoPST(book.dateadded) } added</div>
-      </div>
+        <h6>{book.title}</h6>
+      </Card>
     );
   }
 
@@ -66,26 +70,28 @@ const BookDisplay = ({ book, isInList }) => {
 
   return (
     <div>
-      <h3>{book.title}</h3>
-      {(book.bookinfo.volumeInfo.authors !== undefined)
-        ? (<div>by {book.bookinfo.volumeInfo.authors[0]}</div>)
-        : (<div>No author</div>)}
-      <div>
+      <div styleName="center_input">
+        <h3>{book.title}</h3>
+        {(book.bookinfo.volumeInfo.authors !== undefined)
+          ? (<div>by {book.bookinfo.volumeInfo.authors[0]}</div>)
+          : (<div>No author</div>)}
         <div>
-          <img
-            src={
-            book.bookinfo.volumeInfo.imageLinks.thumbnail}
-            alt="No Cover Image available"
-            styleName="big_book_cover"
+          <div>
+            <img
+              src={
+              book.bookinfo.volumeInfo.imageLinks.thumbnail}
+              alt="No Cover Image available"
+              styleName="big_book_cover"
+            />
+          </div>
+          <Rating 
+            placeholderRate={ book.avg_rating }
+            empty={<img src='/images/star_grey.png'/>}
+            placeholder={<img src='/images/star_yellow.png'/>}
+            fractions = {10}
+            readonly = {true}
           />
         </div>
-        <Rating 
-          placeholderRate={ book.avg_rating }
-          empty={<img src='/images/star_grey.png'/>}
-          placeholder={<img src='/images/star_yellow.png'/>}
-          fractions = {10}
-          readonly = {true}
-        />
       </div>
       {(book.bookinfo.volumeInfo.description.length < 400) ? (<p>{book.bookinfo.volumeInfo.description}</p>)
         : (<p>{book.bookinfo.volumeInfo.description.slice(0, 399)}......</p>)}

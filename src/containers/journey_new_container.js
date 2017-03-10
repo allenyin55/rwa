@@ -63,7 +63,7 @@ class JourneyNew extends React.Component{
           this.props.createJourney(props)
             .then(()=>{
               //blog Book has been created, navigate the user to the index
-              this.context.router.push('/');
+              this.context.router.push('/profile');
             })
         });
     }
@@ -74,7 +74,7 @@ class JourneyNew extends React.Component{
           this.props.createJourney(props)
             .then(()=>{
               //blog Book has been created, navigate the user to the index
-              this.context.router.push('/');
+              this.context.router.push('/profile');
             })
         });
     }

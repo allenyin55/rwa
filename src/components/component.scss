@@ -1,18 +1,22 @@
 @import '../app.scss';
 
+.nav_bar_row{
+	display: flex;
+	align-items : center;
+}
+
+.nav_bar_right{
+	text-align: right;
+}
+
 .nav_bar{
-	width: 85%;
-	height: 4rem;
+	width: 87.8%;
+	height: 65px;
 	background: #fff;
 	border-top: 1px solid #cfcfcf;
 	border-bottom: 1px solid #cfcfcf;
 	position: fixed;
-	vertical-align: middle;
 	z-index: 100
-}
-
-.nav_bar_brand{
-	margin-top: 10px; 
 }
 
 .bookshelf_item{
@@ -21,7 +25,7 @@
 }
 
 .book_cover{
-	width: 96px;
+	width: 117px;
 }
 
 .big_book_cover{

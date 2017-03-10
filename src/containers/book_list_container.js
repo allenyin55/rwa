@@ -6,6 +6,8 @@ import BookDisplay from '../components/book_display_component';
 import styles from './container.scss';
 import CSSModules from 'react-css-modules';
 
+import { Button } from 'antd';
+
 
 class BooksList extends Component {
 
@@ -16,10 +18,6 @@ class BooksList extends Component {
 
   render() {
     const { books } = this.props;
-    const style = {
-      padding: `${15}px`,
-      margin: `${15}px`,
-    };
 
     // this part here is essential, wait until the data is here
     if (!books || books === []) {
@@ -27,7 +25,8 @@ class BooksList extends Component {
     }
 
     return (
-      <div styleName='app_container'>
+
+      <div>
         <div className="row">
           <div className="col-9">
             <div styleName='books_list'>
@@ -46,7 +45,6 @@ class BooksList extends Component {
               )}
             </div>
           </div>
-          <div className="col-3">asdf</div>
         </div>
         <footer/>
       </div>

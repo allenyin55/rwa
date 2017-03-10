@@ -54,8 +54,10 @@ class ShowDef extends React.Component{
 
     let wordDefs = senses.map((thSense, index) => (
       <div key={thSense.sense_id} styleName="word_def">
-        <h6>{def.word}  /{thSense.pronunciations[0].phoneticSpelling}/  {thSense.lexicalCategory}</h6>
-        <div>Definition: {thSense.definitions[0]}</div>
+        <h6>{def.word}  /
+        {(thSense.pronunciations) ? thSense.pronunciations[0].phoneticSpelling : "No Pronunciation"}
+        /  {thSense.lexicalCategory}</h6>
+        <div>Definition: {(thSense.definitions) ? thSense.definitions[0] : "No definition"}</div>
         <div>Example: {(thSense.examples) ? thSense.examples[0].text : "No example"}</div>
       </div>
     ))

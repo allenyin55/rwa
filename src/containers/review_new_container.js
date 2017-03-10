@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import { reduxForm } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import { createReview, fetchABook } from '../actions/index';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import Rating from 'react-rating';
-import AddReview from '../components/add_reviews_component';
+import { Input } from 'antd';
+import renderInput from '../components/render_input_component.js';
 import validate from '../utils/form_validate';
 import CSSModules from 'react-css-modules';
 import styles from './container.scss';
@@ -65,7 +66,7 @@ class AddNewReview extends Component{
                 onChange={this.onRatingChange.bind(this)}/>
               </div>
               <div>
-                <AddReview/>
+                <Field name="review" component={renderInput} type="text" />
               </div>
               <button type="submit" className="btn btn-primary" styleName='btn'>Submit</button>
               <Link to="/" className="btn btn-danger" styleName="btn">Cancel</Link>

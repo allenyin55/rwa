@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ReactModal from 'react-modal';
-import AddComments from '../components/add_comments.js';
+import renderInput from '../components/render_input_component.js';
 import { createComment, getComments } from '../actions/index.js';
-import { reduxForm } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import validate from '../utils/form_validate.js';
 import CSSModules from 'react-css-modules';
 import styles from './modal.scss'
@@ -58,7 +58,7 @@ class Modal extends React.Component{
         >
         	<form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
 	        	<h5 styleName="header_space">Enter you comment</h5>
-	          <AddComments/>
+	          <Field name="commentContent" component={renderInput} type="text" />
 	          <button styleName="same_line comment_btns" 
                     className="btn btn-primary"
                     type="submit">Submit</button>

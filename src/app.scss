@@ -6,17 +6,23 @@ footer{
 	margin-top: 20rem;
 }
 
-textarea {
+textarea, {
 	margin-top: 10px;
-	width: 500px;
+	width: 500px !important;
 	//Instead of the line below you could use @include border-radius($radius, $vertical-radius)
 	border-radius: 6px;
 	border-width: 2px;
 }
 
 .app_container{
-	padding-top: 6rem;
+	padding-top: 5rem;
 }
+
+
+.center_input{
+	text-align: center;
+}
+
 
 .clickable:hover{
 	cursor: pointer;
@@ -26,6 +32,12 @@ textarea {
 	color: $red;
 	cursor: pointer;
 	text-decoration: underline;
+}
+
+.space_for_inline_ele{
+	display: inline-block !important; //included because some elements 
+												//are inline which does't surppprt margin-top
+	margin-top:45px !important; 
 }
 
 .some_space{

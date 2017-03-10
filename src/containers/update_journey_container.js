@@ -3,11 +3,14 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { reduxForm } from 'redux-form';
 import validate from '../utils/form_validate.js';
-import { updateJourney, getNotes, getWords, deleteWord } from '../actions/index.js';
+import { updateJourney, deleteJourney, getNotes, getWords, deleteWord } from '../actions/index.js';
 import BookShelfItem from '../components/bookshelf_item_component.js';
 import ShowContent from '../components/view_content_modal_component.js';
 import ShowDef from '../components/view_def_component.js';
-import Modal from './add_note_container.js';
+import AddNote from './add_note_container.js';
+import { Modal as A_Modal } from 'antd';
+//use to show confirm dialog
+const confirm = A_Modal.confirm;
 import AddWord from './add_word_container.js';
 import Select from 'react-select';
 import CSSModules from 'react-css-modules';
@@ -43,11 +46,25 @@ class UpdateJourney extends React.Component{
 		})
 	}
 
+	onDeleteJourney(){
+		const self = this;
+		confirm({
+	    title: 'Are you sure you want to delete this journey?',
+	    content: 'This will delete all your progress with this book',
+	    okText: 'OK',
+	    cancelText: 'Cancel',
+	    onOk() {
+	      self.props.deleteJourney(self.props.params.id)
+					.then(() => self.context.router.push("/profile"));
+	    },
+	    onCancel() {},
+	  });
+	}
+
 	onSubmit(props){
 		props.reading_status = this.state.reading_status;
 		props.book_id = this.props.params.id;
 		props.profile_id = this.props.profile.identities[0].user_id;
-		console.log("asdfasdf", props.reading_status)
 		if (props.reading_status === 3){
 			this.props.updateJourney(props)
 			.then(() => {
@@ -97,8 +114,10 @@ class UpdateJourney extends React.Component{
 
 
 		return(
-			<div styleName="app_container" className="row">
+			<div className="row">
 			<div className="col-3">
+				<button className="btn btn-danger"
+								onClick={this.onDeleteJourney.bind(this)}>Delete Journey</button>
 				<BookShelfItem styleName="same_line" book={this.props.book} />
 				<form styleName="same_line" onSubmit={handleSubmit(this.onSubmit.bind(this))}>
 						<label>Change your reading status</label>
@@ -114,15 +133,13 @@ class UpdateJourney extends React.Component{
         	</form>
 			</div>
 				<div className="col-3" >
-        	<AddWord trigger="Add a word" 
-	      					 book_id={this.props.params.id}
+        	<AddWord book_id={this.props.params.id}
 	      					 profile_id={profile_id}/>
 	      	{wordsList}
 	      </div>
 	      <div className="col-5">
-	      	<Modal trigger="Add a note" 
-	      				 book_id={this.props.params.id}
-	      				 profile_id={profile_id}/>
+	      	<AddNote book_id={this.props.params.id}
+	      				 	 profile_id={profile_id}/>
 	      	{notesList}
 	      </div>
 			</div>
@@ -150,7 +167,7 @@ function mapStateToProps(state) {
 
 const UpdateJourneyWithCSS = CSSModules(UpdateJourney, styles)
 export default connect(mapStateToProps, 
-	{ updateJourney, getNotes, getWords, deleteWord }) (reduxForm({
+	{ updateJourney, deleteJourney, getNotes, getWords, deleteWord }) (reduxForm({
     form: 'UpdateJourneyForm',
     validate
 })(UpdateJourneyWithCSS));

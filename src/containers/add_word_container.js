@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ReactModal from 'react-modal';
 import { createWord, getWords, getWordDef } from '../actions/index.js';
-import renderInput from '../utils/render_input.js';
+import renderInput from "../utils/render_input.js";
 import { reduxForm, Field } from 'redux-form';
+import { Modal, Button } from 'semantic-ui-react';
 import validate from '../utils/form_validate.js';
 import CSSModules from 'react-css-modules';
 import styles from './modal.scss';
@@ -11,21 +11,22 @@ import styles from './modal.scss';
 class AddWord extends React.Component{
 	constructor () {
     super();
+
     this.state = {
-      showModal: false
-    };
-    
-    this.handleOpenModal = this.handleOpenModal.bind(this);
-    this.handleCloseModal = this.handleCloseModal.bind(this);
+      modalOpen: false
+    }
   }
-	
-  handleOpenModal () {
-    this.setState({ showModal: true });
+
+  handleOpen(){
+    this.setState({
+      modalOpen: true
+    })
   }
-  
-  handleCloseModal (e) {
-    e.preventDefault();
-    this.setState({ showModal: false });
+
+  handleClose(){
+    this.setState({
+      modalOpen: false
+    })
   }
 
   onSubmit(props){
@@ -38,7 +39,9 @@ class AddWord extends React.Component{
 				this.props.createWord(props)
 					.then(() => {
 						this.props.getWords(props);
-						this.setState({showModal: false})
+            this.setState({
+              modalOpen: false
+            })
 					})
 			})
 	}
@@ -47,31 +50,27 @@ class AddWord extends React.Component{
 		const { handleSubmit } = this.props;
 
     return (
-      <div>
-        <button className="btn btn-primary" 
-        				styleName="btn for_margin_in_reviewWidget" 
-        				onClick={this.handleOpenModal}>{this.props.trigger}</button>
-        <ReactModal 
-           isOpen={this.state.showModal}
-           contentLabel="commentBox"
-           styleName="Overlay_word"
-        >
-        	<form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-	        	<h5 styleName="header_space">Add a Word</h5>
-	          <Field name="word"
+      <Modal open={this.state.modalOpen}
+             onClose={this.handleClose.bind(this)}
+             size="small"
+             trigger={<Button onClick={this.handleOpen.bind(this)} basic color="green">Add a word</Button>}>
+        <Modal.Header>Add a word to the book's vocabulary</Modal.Header>
+        <Modal.Content>
+        <Modal.Actions>
+           <form  styleName="center_input"
+                  onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+            <Field name="word"
                    placeholder="add a new word from this book" 
                    minRows={1}
-                   maxRows={2}
-                   component={CSSModules(renderInput, styles)} type="text" />
-	          <button styleName="same_line comment_btns" 
-	          				className="btn btn-primary"
-	          				type="submit">Submit</button>
-	          <button styleName="same_line comment_btns" 
-	          				className="btn btn-danger"
-	          				onClick={this.handleCloseModal}>Cancel</button>
-         	</form>
-        </ReactModal>
-      </div>
+                   maxRows={1}
+                   component={renderInput} type="text" />
+            <Button basic color="violet"
+                    styleName="space_for_inline_ele"
+                    type="submit">Add</Button>
+          </form>
+        </Modal.Actions>
+        </Modal.Content>
+      </Modal>
     );
   }
 }
@@ -80,7 +79,7 @@ function mapStateToProps(state){
 	return {wordDef: state.books.wordDef}
 }
 
-const AddWordWithCSS = CSSModules(AddWord, styles, {allowMultiple: true})
+const AddWordWithCSS = CSSModules(AddWord, styles);
 export default connect(mapStateToProps, { createWord, getWords, getWordDef }) (reduxForm({
     form: 'WordNewForm',
     validate

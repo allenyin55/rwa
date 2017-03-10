@@ -2,6 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { fetchABook, deleteBook, deleteReview, getComments, deleteComment } from '../actions/index';
 import { Link } from 'react-router';
+import { Modal } from 'antd';
+//use to show confirm dialog
+const confirm = Modal.confirm;
 import BookDisplay from '../components/book_display_component';
 import ReviewWidget from '../components/review_widget_component';
 import CSSModules from 'react-css-modules';
@@ -31,17 +34,33 @@ class BookShow extends Component{
            book_id: this.props.params.id,
            review_id: review_id
        };
-        if(confirm('Are you sure you want to delete this review?')) {
-            this.props.deleteReview(book)
+       const self = this;
+       confirm({
+        title: 'Are you sure you want to delete this review?',
+        content: 'This will delete your review',
+        okText: 'OK',
+        cancelText: 'Cancel',
+        onOk() {
+           self.props.deleteReview(book)
                 .then(() => {window.location.reload()});
-        }
+        },
+        onCancel() {},
+      });
     }
 
     onDeleteCommentClick(comment_id){
-      if (confirm('Are you sure you want to delete this comment?')){
-        this.props.deleteComment(comment_id)
+      const self = this;
+       confirm({
+        title: 'Are you sure you want to delete this comment?',
+        content: 'This will delete your comment',
+        okText: 'OK',
+        cancelText: 'Cancel',
+        onOk() {
+           self.props.deleteComment(comment_id)
           .then(() => window.location.reload())
-      }
+        },
+        onCancel() {},
+      });
     }
 
     matchComments(review_id, comments){
@@ -83,7 +102,7 @@ class BookShow extends Component{
         
         if(this.props.bookObject.reviews.length==0){
             return(
-                <div className="d-flex justify-content-between" styleName="app_container">
+                <div className="d-flex justify-content-between">
                     <BookDisplay book={book} isInList={false}/>
                     <div className="d-flex flex-column">
                         {/* hide the delete book from the users
@@ -106,7 +125,7 @@ class BookShow extends Component{
 
         return (
             <div>
-                <div className="d-flex justify-content-between" styleName="app_container">
+                <div className="d-flex justify-content-between">
                     <BookDisplay book={book} isInList={false}/>
                     <div className="d-flex flex-column">
                         {/* hide delete button from the users

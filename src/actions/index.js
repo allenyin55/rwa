@@ -10,6 +10,7 @@ export const DELETE_BOOK = 'DELETE_BOOK';
 export const GET_GUESSED_BOOK_INFO = 'GET_GUESSED_BOOK_INFO';
 export const GET_BOOK_INFO = 'GET_BOOK_INFO';
 export const CREATE_JOURNEY = 'CREATE_JOURNEY';
+export const DELETE_JOURNEY = 'DELETE_JOURNEY';
 export const GET_USER_BOOKS = 'GET_USER_BOOKS';
 export const SELECT_BOOK = "SELECT_BOOK";
 export const UPDATE_JOURNEY = "UPDATE_JOUNEY";
@@ -126,6 +127,15 @@ export function createJourney(props) {
     type: CREATE_JOURNEY,
     payload: request,
   };
+}
+
+export function deleteJourney(book_id){
+  const request = axios.delete(`${POSTGRES_SERVER_URL_JOURNEY}/${book_id}/delete`)
+
+  return {
+    type: DELETE_JOURNEY,
+    payload: request
+  }
 }
 
 export function getUserBooks(props) {
