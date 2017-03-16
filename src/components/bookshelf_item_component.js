@@ -17,7 +17,10 @@ const BookshelfItem = ({book}) => {
 
 // for the sake that the book that doesn't have bookinfo or volumeinfo
   let NoInfo = false;
-  if (book === null || book.bookinfo === null || book.bookinfo.volumeInfo === undefined) {
+  if (book === null || 
+      book.bookinfo === null || 
+      book.bookinfo === undefined ||
+      book.bookinfo.volumeInfo === undefined) {
     NoInfo = true;
   }
 

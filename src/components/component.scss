@@ -1,5 +1,10 @@
 @import '../app.scss';
 
+.pushable{
+	border: 0 !important;
+	box-shadow: none !important;
+}
+
 .nav_bar_row{
 	display: flex;
 	align-items : center;
@@ -10,7 +15,8 @@
 }
 
 .nav_bar{
-	width: 87.8%;
+	/* width is not 100% because of the scroll bar on the right takes up some space */
+	width: 97.6%;
 	height: 65px;
 	background: #fff;
 	border-top: 1px solid #cfcfcf;

@@ -74,6 +74,7 @@
     "babel-runtime": "^6.18.0",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "faker": "^4.1.0",
     "fetch-jsonp": "^1.0.5",
     "globals": "^9.12.0",
     "json-loader": "^0.5.4",

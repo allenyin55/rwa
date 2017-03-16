@@ -2,11 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createWord, getWords, getWordDef } from '../actions/index.js';
 import renderInput from "../utils/render_input.js";
-import { reduxForm, Field } from 'redux-form';
+import SearchWords from './search_words_container.js';
 import { Modal, Button } from 'semantic-ui-react';
+import { Modal as antd_Modal } from 'antd';
 import validate from '../utils/form_validate.js';
 import CSSModules from 'react-css-modules';
 import styles from './modal.scss';
+const ERROR_MESSAGE = "ERROR_MESSAGE";
 
 class AddWord extends React.Component{
 	constructor () {
@@ -29,25 +31,40 @@ class AddWord extends React.Component{
     })
   }
 
-  onSubmit(props){
-		props.dateedited = new Date().toUTCString();
-		props.book_id = this.props.book_id;
-		props.profile_id = this.props.profile_id;
+  error() {
+    antd_Modal.error({
+      title: 'Sorry...',
+      content: "The word you entered doesn't make any sense to me...",
+      okText: "Got it"
+    });
+  }
+
+  onClick(){
+    var props = {
+      word: this.props.wordSelected,
+      book_id: this.props.book_id,
+      dateedited: new Date().toUTCString(),
+      profile_id: this.props.profile_id
+    };
 		this.props.getWordDef(props.word)
 			.then(() => {
-				props.definition = this.props.wordDef[0];
-				this.props.createWord(props)
-					.then(() => {
-						this.props.getWords(props);
-            this.setState({
-              modalOpen: false
+        if(this.props.wordDef === ERROR_MESSAGE){
+          this.error();
+        }
+        else{
+          props.definition = this.props.wordDef[0];
+          this.props.createWord(props)
+            .then(() => {
+              this.props.getWords(props);
+              this.setState({
+                modalOpen: false
+              })
             })
-					})
+        }		
 			})
 	}
 
 	render () {
-		const { handleSubmit } = this.props;
 
     return (
       <Modal open={this.state.modalOpen}
@@ -57,17 +74,11 @@ class AddWord extends React.Component{
         <Modal.Header>Add a word to the book's vocabulary</Modal.Header>
         <Modal.Content>
         <Modal.Actions>
-           <form  styleName="center_input"
-                  onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-            <Field name="word"
-                   placeholder="add a new word from this book" 
-                   minRows={1}
-                   maxRows={1}
-                   component={renderInput} type="text" />
-            <Button basic color="violet"
-                    styleName="space_for_inline_ele"
-                    type="submit">Add</Button>
-          </form>
+           <SearchWords/>
+           <Button onClick={this.onClick.bind(this)} 
+                   styleName="some_space"
+                   basic 
+                   color="blue">Add</Button>
         </Modal.Actions>
         </Modal.Content>
       </Modal>
@@ -76,11 +87,11 @@ class AddWord extends React.Component{
 }
 
 function mapStateToProps(state){
-	return {wordDef: state.books.wordDef}
+	return {
+    wordDef: state.books.wordDef,
+    wordSelected: state.words.wordSelected
+  }
 }
 
 const AddWordWithCSS = CSSModules(AddWord, styles);
-export default connect(mapStateToProps, { createWord, getWords, getWordDef }) (reduxForm({
-    form: 'WordNewForm',
-    validate
-}) (AddWordWithCSS));
+export default connect(mapStateToProps, { createWord, getWords, getWordDef }) (AddWordWithCSS);

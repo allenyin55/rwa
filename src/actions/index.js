@@ -25,6 +25,8 @@ export const GET_WORDS = "GET_WORDS";
 export const CREATE_WORD = "CREATE_WORD";
 export const DELETE_WORD = "DELETE_WORD";
 export const GET_WORD_DEF = "GET_WORD_DEf";
+export const SEARCH_WORDS = "SEARCH_WORDS";
+export const SELECT_WORD = "SELECT_WORD";
 // for production const POSTGRES_SERVER_URL = 'https://readingwithannieapi.herokuapp.com/api/books';
 const POSTGRES_SERVER_URL = 'http://localhost:3000/api/books';
 const POSTGRES_SERVER_URL_JOURNEY = 'http://localhost:3000/api/journey';
@@ -261,5 +263,21 @@ export function getWordDef(word){
   return{
     type: GET_WORD_DEF,
     payload: request
+  }
+}
+
+export function searchWords(word){
+  const request = axios.post(`${POSTGRES_SERVER_URL_WORDS}/search`, word);
+
+  return{
+    type: SEARCH_WORDS,
+    payload: request
+  }
+}
+
+export function selectWord(word){
+  return{
+    type: SELECT_WORD,
+    payload: word
   }
 }

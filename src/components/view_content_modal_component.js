@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ReactModal from 'react-modal';
-import { editNote, deleteNote } from '../actions/index.js';
 import renderInput from '../utils/render_input.js';
 import { reduxForm, Field } from 'redux-form';
 import validate from '../utils/form_validate.js';
@@ -30,23 +29,15 @@ class ShowContent extends React.Component{
 
   handleDeleteNote(note_id){
     if(confirm('Are you sure you want delete the note?')) {
-            this.props.deleteNote(note_id)
-            .then(() => {
-              location.reload();
-            });
+            this.props.onDeleteNote(note_id)
         }
   }
 
   onSubmit(props){
     props.dateedited = new Date().toUTCString();
     props.note_id = this.props.note.note_id;
-    this.props.editNote(props)
-      .then(() => {
-        //to update the notes in update_journey
-        console.log(props)
-        location.reload();
-        this.setState({ showModal: false });
-    });
+    this.props.onEditNote(props)
+    this.setState({ showModal: false });
   }
 
 
@@ -126,7 +117,7 @@ class ShowContent extends React.Component{
 }
 
 const ShowContentWithCSS = CSSModules(ShowContent, styles, {allowMultiple: true});
-export default connect(null, { editNote, deleteNote }) (reduxForm({
+export default connect(null) (reduxForm({
     form: 'NoteEditForm',
     validate
 }) (ShowContentWithCSS));;

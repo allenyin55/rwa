@@ -8,22 +8,28 @@ $black_19: rgba(0, 0, 0, 0.19);
 $color_bon_jour_approx: #e2e2e2;
 
 .input {
+  margin-top: 10px;
   width: 35%;
   height: 35px;
   font-size: 20px;  
-  border-radius: 6px;
-  border-width: 2px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  transition: all .3s;
 }
+
+.input :hover {
+    border-color: #49a9ee;
+}
+
 .suggestionsContainer {
   width: 34%;
-  right: 377px;
   background-color: $white;
   border-color: $black;
   border-radius: 6px;
   border-width: 2px;
   box-shadow: 0 4px 8px 0 $black_20, 0 6px 20px 0 $black_19;
   text-align: left;
-  position: absolute;
+  margin: auto;
   z-index: 100;
 }
 .suggestionsList {

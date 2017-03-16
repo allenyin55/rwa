@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import NavBar from '../components/nav_bar_component';
 import { Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react';
 import CSSModules from 'react-css-modules';
-import styles from '../app.scss'
+import styles from './component.scss'
 
 class App extends React.Component {
 
@@ -41,7 +41,7 @@ class App extends React.Component {
                 menuBtn={this.toggleVisibility.bind(this)}
                 />
         <div styleName="app_container">
-          <Sidebar.Pushable as={Segment}>
+          <Sidebar.Pushable as={Segment} styleName="pushable">
             <Sidebar as={Menu} animation='slide along' width='thin' visible={visible} icon='labeled' vertical inverted>
               <Menu.Item name='home'>
                 <Link to="/">

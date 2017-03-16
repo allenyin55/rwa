@@ -26,7 +26,6 @@ class ShowDef extends React.Component{
   handleWordDelete(word_id){
     if(confirm('Sure you want to delete this word?')){
       this.props.onDeleteWord(word_id)
-        .then(location.reload())
     }
   }
 

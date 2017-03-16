@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { reduxForm } from 'redux-form';
 import validate from '../utils/form_validate.js';
-import { updateJourney, deleteJourney, getNotes, getWords, deleteWord } from '../actions/index.js';
+import { updateJourney, deleteJourney, getNotes, editNote,
+	getWords, deleteWord, deleteNote } from '../actions/index.js';
 import BookShelfItem from '../components/bookshelf_item_component.js';
 import ShowContent from '../components/view_content_modal_component.js';
 import ShowDef from '../components/view_def_component.js';
@@ -19,25 +20,33 @@ import 'react-select/dist/react-select.css';
 
 class UpdateJourney extends React.Component{
 
-	  //like props, don't abuse it. Only use it with router
-    static contextTypes = {
-        router: PropTypes.object
-    };
+  //like props, don't abuse it. Only use it with router
+  static contextTypes = {
+      router: PropTypes.object
+  };
 
 	constructor(props) {
     super(props);
     
     this.state={
+    	word_list: [],
     	reading_status: 0 
     }
   }
 
+  getIds(){
+  	const ids = {
+  		book_id: this.props.params.id,
+  		profile_id: this.props.profile.identities[0].user_id
+  	};
+
+  	return ids;
+  }
+
   componentDidMount(){
-  	let ids = {};
-		ids.book_id = this.props.params.id
-		ids.profile_id = this.props.profile.identities[0].user_id;
-    this.props.getNotes(ids);
-    this.props.getWords(ids);
+    this.props.getNotes(this.getIds());
+    this.props.getWords(this.getIds());
+    console.log(this.props.words)
   }
 
 	onChange(val){
@@ -59,6 +68,24 @@ class UpdateJourney extends React.Component{
 	    },
 	    onCancel() {},
 	  });
+	}
+
+	onDeleteWord(word_id){
+		this.props.deleteWord(word_id)
+		.then(() => this.props.getWords(this.getIds()))
+	}
+
+	onEditNote(props){
+		this.props.editNote(props)
+      .then(() => {
+        //to update the notes in update_journey
+        this.props.getNotes(this.getIds())
+      });
+	}
+
+	onDeleteNote(note_id){
+		this.props.deleteNote(note_id)
+		.then(() => this.props.getNotes(this.getIds()))
 	}
 
 	onSubmit(props){
@@ -97,7 +124,10 @@ class UpdateJourney extends React.Component{
 		if (notes.length !== 0){
 			notesList = <div styleName="note_list" className="list-group">
 				{notes.map((note) => (
-					<ShowContent note={note} key={note.note_id} />
+					<ShowContent note={note} 
+											 key={note.note_id} 
+											 onEditNote={this.onEditNote.bind(this)}
+											 onDeleteNote={this.onDeleteNote.bind(this)} />
 				))}
 			</div>
 		}
@@ -107,11 +137,10 @@ class UpdateJourney extends React.Component{
 		if (words.length !== 0){
 			wordsList = <div styleName="word_list" className="list-group">
 				{words.map((word) => (
-					<ShowDef word={word} key={word.word_id} onDeleteWord={this.props.deleteWord}/>
+					<ShowDef word={word} key={word.word_id} onDeleteWord={this.onDeleteWord.bind(this)}/>
 				))}
 			</div>
 		}
-
 
 		return(
 			<div className="row">
@@ -167,7 +196,8 @@ function mapStateToProps(state) {
 
 const UpdateJourneyWithCSS = CSSModules(UpdateJourney, styles)
 export default connect(mapStateToProps, 
-	{ updateJourney, deleteJourney, getNotes, getWords, deleteWord }) (reduxForm({
+	{ updateJourney, deleteJourney, getNotes, editNote,
+		getWords, deleteWord, deleteNote }) (reduxForm({
     form: 'UpdateJourneyForm',
     validate
 })(UpdateJourneyWithCSS));
