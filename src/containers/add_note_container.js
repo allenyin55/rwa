@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import ReactModal from 'react-modal';
 import { createNote, getNotes } from '../actions/index.js';
 import renderInput from "../utils/render_input.js";
-import { Modal, Button } from "semantic-ui-react"
+import { Button } from "semantic-ui-react"
+import { Modal } from 'antd';
 import { reduxForm, Field } from 'redux-form';
 import validate from '../utils/form_validate.js';
 import CSSModules from 'react-css-modules';
@@ -17,16 +18,16 @@ class AddNote extends React.Component{
       modalOpen: false
     };
     
-    this.handleOpenModal = this.handleOpenModal.bind(this);
-    this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 	
-  handleOpenModal () {
+  handleOpen() {
     this.setState({ modalOpen: true });
   }
   
-  handleCloseModal (e) {
-    e.preventDefault();
+  handleClose(e) {
     this.setState({ modalOpen: false });
   }
 
@@ -47,15 +48,16 @@ class AddNote extends React.Component{
 
     return (
       <div>
-        <Modal open={this.state.modalOpen}
-               onClose={this.handleCloseModal.bind(this)}
-               size="small"
-               trigger={<Button basic color="green"
-                                onClick={this.handleOpenModal}>Add a note</Button>}>
-          <Modal.Header>Add a word to the book's vocabulary</Modal.Header>
-          <Modal.Content>
-          <Modal.Actions>
-             <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+        <Button onClick={this.handleOpen} basic color="green">Add a note</Button>
+        <Modal title="Add a note"
+          visible={this.state.modalOpen}
+          styleName="modal_to_top"
+          onOk={handleSubmit(this.onSubmit)}
+          onCancel={this.handleClose}
+          okText="Add"
+          cancelText="Cancel"
+        >
+          <form>
               <h5 styleName="header_space">Add a note</h5>
               <h5 styleName="header_space">Title</h5>
               <Field name="noteTitle" 
@@ -92,17 +94,9 @@ class AddNote extends React.Component{
                      maxRows={9}
                      component={renderInput} 
                      type="text" />
-              <button styleName="same_line comment_btns"
-                      className="btn btn-primary" 
-                      type="submit">Submit</button>
-              <button styleName="same_line comment_btns" 
-                      className="btn btn-danger"
-                      onClick={this.handleCloseModal}>Cancel</button>
             </form>
-          </Modal.Actions>
-          </Modal.Content>
-      </Modal>
-      </div>
+        </Modal>
+      </div>  
     );
   }
 }

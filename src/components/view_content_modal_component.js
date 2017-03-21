@@ -27,12 +27,6 @@ class ShowContent extends React.Component{
     this.setState({ showModal: false });
   }
 
-  handleDeleteNote(note_id){
-    if(confirm('Are you sure you want delete the note?')) {
-            this.props.onDeleteNote(note_id)
-        }
-  }
-
   onSubmit(props){
     props.dateedited = new Date().toUTCString();
     props.note_id = this.props.note.note_id;
@@ -64,7 +58,7 @@ class ShowContent extends React.Component{
         	<form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
             <button className="btn btn-danger"
                     styleName="same_line comment_btns"
-                    onClick={() => this.handleDeleteNote(note.note_id)}>Delete</button>
+                    onClick={() => this.props.onDeleteNote(note.note_id)}>Delete</button>
             <button styleName="same_line comment_btns" 
                     className="btn btn-danger"
                     onClick={this.handleCloseModal}>Cancel</button>

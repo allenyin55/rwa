@@ -6,6 +6,7 @@
 }
 
 .nav_bar_row{
+	padding: 0 15px;
 	display: flex;
 	align-items : center;
 }
@@ -15,8 +16,7 @@
 }
 
 .nav_bar{
-	/* width is not 100% because of the scroll bar on the right takes up some space */
-	width: 97.6%;
+	width: 1278px;
 	height: 65px;
 	background: #fff;
 	border-top: 1px solid #cfcfcf;
@@ -36,6 +36,10 @@
 
 .big_book_cover{
 	width: 128px;
+}
+
+.description_box{
+	margin: 30px 150px;
 }
 
 .review_item{

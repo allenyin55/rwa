@@ -42,7 +42,7 @@ class BookShow extends Component{
         cancelText: 'Cancel',
         onOk() {
            self.props.deleteReview(book)
-                .then(() => {window.location.reload()});
+                .then(() => self.props.fetchABook(self.props.params.id));
         },
         onCancel() {},
       });
@@ -57,7 +57,7 @@ class BookShow extends Component{
         cancelText: 'Cancel',
         onOk() {
            self.props.deleteComment(comment_id)
-          .then(() => window.location.reload())
+          .then(() => self.props.getComments(self.props.params.id))
         },
         onCancel() {},
       });

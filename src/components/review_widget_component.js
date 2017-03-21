@@ -63,6 +63,7 @@ const ReviewWidget = ({ review, reviewer, profile,
               fractions = {10}
               readonly = {true}
             />
+            <div>My Rating: { review.rating}</div>
             <p className="mb-1">{review.review}</p>
             <small>edited on {PSTTime.substring(0, 10)}</small>
           </div>

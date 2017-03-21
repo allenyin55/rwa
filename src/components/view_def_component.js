@@ -23,12 +23,6 @@ class ShowDef extends React.Component{
     this.setState({ showModal: false });
   }
 
-  handleWordDelete(word_id){
-    if(confirm('Sure you want to delete this word?')){
-      this.props.onDeleteWord(word_id)
-    }
-  }
-
   render(){
 
 		const { word } = this.props;
@@ -71,7 +65,7 @@ class ShowDef extends React.Component{
                  className="mr-auto p-2">{word.definition.id}</div>
             <div className="p-2" 
                  styleName="delete_btn"
-                 onClick={() => this.handleWordDelete.bind(this)(word.word_id)}>delete</div>
+                 onClick={() => this.props.onDeleteWord(word.word_id)}>delete</div>
         	</div>
         </div>
         <ReactModal 

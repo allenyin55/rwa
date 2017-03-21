@@ -4,19 +4,19 @@ import { Link } from 'react-router';
 import { reduxForm } from 'redux-form';
 import validate from '../utils/form_validate.js';
 import { updateJourney, deleteJourney, getNotes, editNote,
-	getWords, deleteWord, deleteNote } from '../actions/index.js';
+				 getWords, deleteWord, deleteNote } from '../actions/index.js';
 import BookShelfItem from '../components/bookshelf_item_component.js';
 import ShowContent from '../components/view_content_modal_component.js';
 import ShowDef from '../components/view_def_component.js';
 import AddNote from './add_note_container.js';
-import { Modal as A_Modal } from 'antd';
-//use to show confirm dialog
-const confirm = A_Modal.confirm;
 import AddWord from './add_word_container.js';
 import Select from 'react-select';
 import CSSModules from 'react-css-modules';
 import styles from './container.scss';
 import 'react-select/dist/react-select.css';
+import { Modal } from 'antd';
+//use to show confirm dialog
+const confirm = Modal.confirm;
 
 class UpdateJourney extends React.Component{
 
@@ -71,8 +71,18 @@ class UpdateJourney extends React.Component{
 	}
 
 	onDeleteWord(word_id){
-		this.props.deleteWord(word_id)
-		.then(() => this.props.getWords(this.getIds()))
+		const self = this;
+		confirm({
+	    title: 'Are you sure you want to delete this word?',
+	    content: 'This will delete the word from this book.',
+	    okText: 'OK',
+	    cancelText: 'Cancel',
+	    onOk() {
+	      self.props.deleteWord(word_id)
+					.then(() => self.props.getWords(self.getIds()))
+	    },
+	    onCancel() {},
+	  });
 	}
 
 	onEditNote(props){
@@ -84,8 +94,18 @@ class UpdateJourney extends React.Component{
 	}
 
 	onDeleteNote(note_id){
-		this.props.deleteNote(note_id)
-		.then(() => this.props.getNotes(this.getIds()))
+		const self = this;
+		confirm({
+	    title: 'Are you sure you want to delete this note?',
+	    content: 'This will delete everything in this note',
+	    okText: 'OK',
+	    cancelText: 'Cancel',
+	    onOk() {
+	      self.props.deleteNote(note_id)
+					.then(() => self.props.getNotes(self.getIds()))
+	    },
+	    onCancel() {},
+	  });
 	}
 
 	onSubmit(props){
@@ -143,34 +163,37 @@ class UpdateJourney extends React.Component{
 		}
 
 		return(
-			<div className="row">
-			<div className="col-3">
-				<button className="btn btn-danger"
-								onClick={this.onDeleteJourney.bind(this)}>Delete Journey</button>
-				<BookShelfItem styleName="same_line" book={this.props.book} />
-				<form styleName="same_line" onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-						<label>Change your reading status</label>
-						<Select
-									    name="reading_status"
-									    value={this.state.reading_status}
-									    options={options}
-									    clearable={false}
-									    onChange={this.onChange.bind(this)}
-									/>
-	          <button type="submit" className="btn btn-primary" styleName="btn">Save</button>
-	          <Link to="/profile" className="btn btn-danger" styleName="btn">Cancel</Link>
-        	</form>
-			</div>
-				<div className="col-3" >
-        	<AddWord book_id={this.props.params.id}
-	      					 profile_id={profile_id}/>
-	      	{wordsList}
-	      </div>
-	      <div className="col-5">
-	      	<AddNote book_id={this.props.params.id}
-	      				 	 profile_id={profile_id}/>
-	      	{notesList}
-	      </div>
+			<div>
+				<div className="row">
+				<div className="col-3">
+					<button className="btn btn-danger"
+									onClick={this.onDeleteJourney.bind(this)}>Delete Journey</button>
+					<BookShelfItem styleName="same_line" book={this.props.book} />
+					<form styleName="same_line" onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+							<label>Change your reading status</label>
+							<Select
+										    name="reading_status"
+										    value={this.state.reading_status}
+										    options={options}
+										    clearable={false}
+										    onChange={this.onChange.bind(this)}
+										/>
+		          <button type="submit" className="btn btn-primary" styleName="btn">Save</button>
+		          <Link to="/profile" className="btn btn-danger" styleName="btn">Cancel</Link>
+	        	</form>
+				</div>
+					<div className="col-3" >
+	        	<AddWord book_id={this.props.params.id}
+		      					 profile_id={profile_id}/>
+		      	{wordsList}
+		      </div>
+		      <div className="col-5">
+		      	<AddNote book_id={this.props.params.id}
+		      				 	 profile_id={profile_id}/>
+		      	{notesList}
+		      </div>
+				</div>
+				<footer/>
 			</div>
 
 			)

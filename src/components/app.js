@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import NavBar from '../components/nav_bar_component';
 import { Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react';
 import CSSModules from 'react-css-modules';
-import styles from './component.scss'
+import styles from './component.scss';
 
 class App extends React.Component {
 

@@ -68,6 +68,8 @@ const BookDisplay = ({ book, isInList }) => {
     book.bookinfo.volumeInfo.description = 'No Description';
   }
 
+  const strippedText = book.bookinfo.volumeInfo.description.replace(/<\/?[^>]+(>|$)/g, "");
+
   return (
     <div>
       <div styleName="center_input">
@@ -91,10 +93,11 @@ const BookDisplay = ({ book, isInList }) => {
             fractions = {10}
             readonly = {true}
           />
+          <div>Average Rating: { book.avg_rating}</div>
         </div>
       </div>
-      {(book.bookinfo.volumeInfo.description.length < 400) ? (<p>{book.bookinfo.volumeInfo.description}</p>)
-        : (<p>{book.bookinfo.volumeInfo.description.slice(0, 399)}......</p>)}
+      {(strippedText.length < 400) ? (<div styleName="description_box">{strippedText}</div>)
+        : (<div styleName="description_box">{strippedText.slice(0, 399)}......</div>)}
     </div>
   );
 };

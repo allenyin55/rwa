@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { createWord, getWords, getWordDef } from '../actions/index.js';
 import renderInput from "../utils/render_input.js";
 import SearchWords from './search_words_container.js';
-import { Modal, Button } from 'semantic-ui-react';
-import { Modal as antd_Modal } from 'antd';
+import { Button } from 'semantic-ui-react';
+import { Modal, Alert } from 'antd';
 import validate from '../utils/form_validate.js';
 import CSSModules from 'react-css-modules';
 import styles from './modal.scss';
@@ -17,11 +17,15 @@ class AddWord extends React.Component{
     this.state = {
       modalOpen: false
     }
+
+    this.handleOpen = this.handleOpen.bind(this);
+    this.onClickAdd = this.onClickAdd.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   handleOpen(){
     this.setState({
-      modalOpen: true
+      modalOpen: true,
     })
   }
 
@@ -32,20 +36,22 @@ class AddWord extends React.Component{
   }
 
   error() {
-    antd_Modal.error({
+    Modal.error({
       title: 'Sorry...',
-      content: "The word you entered doesn't make any sense to me...",
+      content: "Whatever you just entered doesn't make any sense to me...",
       okText: "Got it"
     });
   }
 
-  onClick(){
+  onClickAdd(){
     var props = {
       word: this.props.wordSelected,
       book_id: this.props.book_id,
       dateedited: new Date().toUTCString(),
       profile_id: this.props.profile_id
     };
+    console.log(props.word)
+    if (!props.word) return this.error();
 		this.props.getWordDef(props.word)
 			.then(() => {
         if(this.props.wordDef === ERROR_MESSAGE){
@@ -57,7 +63,7 @@ class AddWord extends React.Component{
             .then(() => {
               this.props.getWords(props);
               this.setState({
-                modalOpen: false
+                modalOpen: false,
               })
             })
         }		
@@ -67,21 +73,18 @@ class AddWord extends React.Component{
 	render () {
 
     return (
-      <Modal open={this.state.modalOpen}
-             onClose={this.handleClose.bind(this)}
-             size="small"
-             trigger={<Button onClick={this.handleOpen.bind(this)} basic color="green">Add a word</Button>}>
-        <Modal.Header>Add a word to the book's vocabulary</Modal.Header>
-        <Modal.Content>
-        <Modal.Actions>
-           <SearchWords/>
-           <Button onClick={this.onClick.bind(this)} 
-                   styleName="some_space"
-                   basic 
-                   color="blue">Add</Button>
-        </Modal.Actions>
-        </Modal.Content>
-      </Modal>
+      <div>
+        <Button onClick={this.handleOpen} basic color="green">Add a word</Button>
+        <Modal title="Add a word"
+          visible={this.state.modalOpen}
+          onOk={this.onClickAdd}
+          onCancel={this.handleClose}
+          okText="Add"
+          cancelText="Cancel"
+        >
+          <SearchWords />
+        </Modal>
+      </div>
     );
   }
 }

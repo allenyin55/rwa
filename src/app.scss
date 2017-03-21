@@ -1,6 +1,11 @@
 //colors
 $red: red;
-$styleless_link_tags: '.styleless_link, .styleless_link:active, styleless_link:visited, .styleless_link:hover';
+$styleless_link_tags: '.styleless_link, .styleless_link:active, 
+styleless_link:visited, .styleless_link:enabled';
+
+body{
+	overflow: scroll;
+}
 
 footer{
 	margin-top: 20rem;

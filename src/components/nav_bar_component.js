@@ -9,8 +9,8 @@ const NavBar = ({ profile, logOut, menuBtn } ) => {
   if (window.location.pathname === '/login') return <div />;
 
   return (
-    <header styleName="nav_bar" className="container">
-      <div className="row" styleName="nav_bar_row">
+    <header styleName="nav_bar">
+      <div styleName="nav_bar_row">
         <Icon name="sidebar"
               size="large"
               onClick={menuBtn}/>
