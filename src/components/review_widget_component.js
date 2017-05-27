@@ -64,7 +64,7 @@ const ReviewWidget = ({ review, reviewer, profile,
               readonly = {true}
             />
             <div>My Rating: { review.rating}</div>
-            <p className="mb-1">{review.review}</p>
+            <pre className="mb-1">{review.review}</pre>
             <small>edited on {PSTTime.substring(0, 10)}</small>
           </div>
           <div className="ml-auto p-2">

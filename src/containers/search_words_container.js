@@ -32,6 +32,7 @@ class SearchWord extends Component {
       })
 
     }
+    
   resultRenderer = ({word}) => {
     return <div key={word+Date()}>{word}</div>
   }

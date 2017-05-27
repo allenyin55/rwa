@@ -1,5 +1,14 @@
 @import '../app.scss';
 
+//linebreaks inside pre tag & font
+pre {
+  font-family: "Lato"; 
+  font-size: 14px;
+  word-wrap: break-word;      /* IE 5.5-7 */
+  white-space: -moz-pre-wrap; /* Firefox 1.0-2.0 */
+  white-space: pre-wrap;      /* current browsers */
+}
+
 .pushable{
 	border: 0 !important;
 	box-shadow: none !important;
